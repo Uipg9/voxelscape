@@ -11,8 +11,6 @@ import net.minecraft.world.inventory.MenuType;
 import net.minecraft.world.item.Items;
 
 public class PerkShopGui extends SimpleGui {
-    private static final int[] PERK_SLOTS = {10, 11, 12, 13, 14, 15, 16, 19, 20, 21, 22, 23, 24, 25};
-    
     public PerkShopGui(ServerPlayer player) {
         super(MenuType.GENERIC_9x3, player, false);
         this.setTitle(Component.literal("§6§lPerk Shop §8(QP: §e" + QuestDataManager.getPlayerData(player).getQuestPoints() + "§8)"));
@@ -22,8 +20,6 @@ public class PerkShopGui extends SimpleGui {
     }
     
     private void setupPerks(ServerPlayer player) {
-        PlayerQuestData data = QuestDataManager.getPlayerData(player);
-        
         // Movement Perks - Speed Boost disabled (MobEffects not available)
         
         // Utility Perks
@@ -91,6 +87,15 @@ public class PerkShopGui extends SimpleGui {
         addPerk(player, 18, "fire_resistance", "§6Fire Resistance", 22, Items.MAGMA_CREAM,
             "§7Permanent fire immunity",
             "§7Swim in lava safely!");
+        
+        // NEW: Advanced Perks
+        addPerk(player, 17, "rare_drop_boost", "§5Rare Drop Booster", 40, Items.NETHER_STAR,
+            "§7+20% rare drop chance",
+            "§7More heads, discs, and loot!");
+        
+        addPerk(player, 9, "void_walker", "§8Void Walker", 35, Items.ENDER_PEARL,
+            "§7Survive void once per day",
+            "§7Teleport to surface!");
     }
     
     private void addPerk(ServerPlayer player, int slot, String perkId, String name, int cost, 

@@ -15,6 +15,12 @@ public class PlayerQuestData {
     private int questPoints = 0; // Quest Points for perk shop
     private final Set<String> unlockedPerks = new HashSet<>(); // Purchased perks
     private final Set<String> collectedItems = new HashSet<>(); // Collection log
+    
+    // NEW: Daily quest system
+    private int dailyQuestId = -1;
+    private long dailyQuestExpiry = 0; // Timestamp when daily quest expires
+    private int questStreak = 0; // Consecutive days with completed quests
+    private long lastQuestCompletionDay = 0; // Day timestamp for streak tracking
 
     public void completeQuest(int questId) {
         inProgressQuests.remove(questId);
@@ -128,6 +134,52 @@ public class PlayerQuestData {
     public Set<String> getCollectedItems() {
         return new HashSet<>(collectedItems);
     }
+    
+    // NEW: Daily quest management
+    public int getDailyQuestId() {
+        return dailyQuestId;
+    }
+    
+    public void setDailyQuest(int questId, long expiryTime) {
+        this.dailyQuestId = questId;
+        this.dailyQuestExpiry = expiryTime;
+    }
+    
+    public boolean hasDailyQuest() {
+        return dailyQuestId != -1 && System.currentTimeMillis() < dailyQuestExpiry;
+    }
+    
+    public long getDailyQuestExpiry() {
+        return dailyQuestExpiry;
+    }
+    
+    public void clearDailyQuest() {
+        this.dailyQuestId = -1;
+        this.dailyQuestExpiry = 0;
+    }
+    
+    // NEW: Quest streak management
+    public int getQuestStreak() {
+        return questStreak;
+    }
+    
+    public void incrementStreak() {
+        questStreak++;
+    }
+    
+    public void resetStreak() {
+        questStreak = 0;
+    }
+    
+    public void updateLastQuestDay() {
+        // Store day number (not exact timestamp)
+        lastQuestCompletionDay = System.currentTimeMillis() / (24 * 60 * 60 * 1000);
+    }
+    
+    public boolean shouldResetStreak() {
+        long currentDay = System.currentTimeMillis() / (24 * 60 * 60 * 1000);
+        return currentDay - lastQuestCompletionDay > 1; // More than 1 day gap
+    }
 
     // NBT Serialization
     public CompoundTag toNbt() {
@@ -153,6 +205,12 @@ public class PlayerQuestData {
             collectionTag.add(StringTag.valueOf(item));
         }
         tag.put("collectedItems", collectionTag);
+        
+        // Save daily quest data
+        tag.putInt("dailyQuestId", dailyQuestId);
+        tag.putLong("dailyQuestExpiry", dailyQuestExpiry);
+        tag.putInt("questStreak", questStreak);
+        tag.putLong("lastQuestDay", lastQuestCompletionDay);
         
         return tag;
     }
@@ -210,6 +268,20 @@ public class PlayerQuestData {
                     collectedItems.add(item);
                 }
             }
+        }
+        
+        // Load daily quest data
+        if (tag.contains("dailyQuestId")) {
+            dailyQuestId = tag.getInt("dailyQuestId").orElse(-1);
+        }
+        if (tag.contains("dailyQuestExpiry")) {
+            dailyQuestExpiry = tag.getLong("dailyQuestExpiry").orElse(0L);
+        }
+        if (tag.contains("questStreak")) {
+            questStreak = tag.getInt("questStreak").orElse(0);
+        }
+        if (tag.contains("lastQuestDay")) {
+            lastQuestCompletionDay = tag.getLong("lastQuestDay").orElse(0L);
         }
     }
     

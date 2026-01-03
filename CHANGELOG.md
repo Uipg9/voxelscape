@@ -2,6 +2,33 @@
 
 All notable changes to Voxel Scape will be documented in this file.
 
+## [1.4.0] - 2026-01-03
+
+### Added
+- **Daily Quest System** (Infrastructure)
+  - Data structures for rotating daily challenges
+  - Quest streak tracking system
+  - Persistent save/load for daily quest progress
+  - Ready for future daily quest implementation
+- **Rare Drop Booster Perk** (40 QP) - +20% rare drop chance
+  - Affects mob head drops (5% → 25%)
+  - Increases rare item drop chances
+  - Stacks with Head Hunter perk
+- **Void Walker Perk** (35 QP) - Survive void once per day
+  - Teleports to surface when falling below Y=-60
+  - 24-hour cooldown system
+  - Shows remaining cooldown time
+  - Perfect for End dimension exploration
+
+### Fixed
+- Removed unused PERK_SLOTS array warning
+- Removed unused data variable in setupPerks
+- Cleaned up all compilation warnings
+
+### Changed
+- Head Hunter perk now affected by Rare Drop Booster
+- Improved code organization and structure
+
 ## [1.3.0] - 2026-01-03
 
 ### Added

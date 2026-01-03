@@ -25,6 +25,7 @@ public class PerkEffectHandler {
     private static final Random RANDOM = new Random();
     private static int tickCounter = 0;
     private static final Map<UUID, Boolean> SOUL_KEEPER_ACTIVE = new HashMap<>();
+    private static final Map<UUID, Long> VOID_WALKER_COOLDOWN = new HashMap<>(); // Void Walker cooldown tracker
     
     public static void register() {
         // Apply passive effects every second
@@ -36,6 +37,7 @@ public class PerkEffectHandler {
                 for (ServerPlayer player : server.getPlayerList().getPlayers()) {
                     applyPassiveEffects(player);
                     applyXPBoost(player);
+                    checkVoidWalker(player); // NEW: Check if player is falling into void
                 }
             }
         });
@@ -256,8 +258,16 @@ public class PerkEffectHandler {
     private static void handleMobHeadDrop(ServerPlayer player, net.minecraft.world.entity.LivingEntity entity) {
         PlayerQuestData data = QuestDataManager.getPlayerData(player);
         
-        // Head Hunter - 5% chance for mob heads
-        if (data.hasPerk("mob_heads") && RANDOM.nextFloat() < 0.05f) {
+        // Base 5% chance for Head Hunter perk
+        float baseChance = 0.05f;
+        
+        // +20% if Rare Drop Booster is active (total 25% = 0.05 + 0.20)
+        if (data.hasPerk("rare_drop_boost")) {
+            baseChance += 0.20f;
+        }
+        
+        // Head Hunter - 5% base chance (or 25% with booster) for mob heads
+        if (data.hasPerk("mob_heads") && RANDOM.nextFloat() < baseChance) {
             ItemStack head = getMobHead(entity);
             if (head != null) {
                 ItemEntity itemEntity = new ItemEntity(
@@ -413,5 +423,37 @@ public class PerkEffectHandler {
             return new ItemStack(Items.TERRACOTTA);
         }
         return ItemStack.EMPTY;
+    }
+    
+    private static void checkVoidWalker(ServerPlayer player) {
+        PlayerQuestData data = QuestDataManager.getPlayerData(player);
+        UUID uuid = player.getUUID();
+        
+        // Check if player has Void Walker perk and is below Y=-60 (falling into void)
+        if (data.hasPerk("void_walker") && player.getY() < -60) {
+            long currentTime = System.currentTimeMillis();
+            long lastUse = VOID_WALKER_COOLDOWN.getOrDefault(uuid, 0L);
+            long dayInMillis = 24 * 60 * 60 * 1000; // 24 hours
+            
+            // Check if cooldown has expired (24 hours)
+            if (currentTime - lastUse >= dayInMillis) {
+                // Teleport player to surface (Y=320) at their current XZ
+                player.teleportTo(player.getX(), 320, player.getZ());
+                player.setDeltaMovement(0, 0, 0); // Stop all movement
+                player.fallDistance = 0; // Reset fall distance
+                
+                // Set cooldown
+                VOID_WALKER_COOLDOWN.put(uuid, currentTime);
+                
+                player.sendSystemMessage(net.minecraft.network.chat.Component.literal("§8✦ Void Walker activated! §7Teleported to safety."));
+                player.sendSystemMessage(net.minecraft.network.chat.Component.literal("§c§lCooldown: 24 hours"));
+            } else if (player.getY() < -80) {
+                // Show cooldown message if they're really deep
+                long hoursLeft = (dayInMillis - (currentTime - lastUse)) / (60 * 60 * 1000);
+                if (RANDOM.nextFloat() < 0.05f) { // Only 5% chance to avoid spam
+                    player.sendSystemMessage(net.minecraft.network.chat.Component.literal("§c§lVoid Walker on cooldown! §7(" + hoursLeft + "h remaining)"));
+                }
+            }
+        }
     }
 }
