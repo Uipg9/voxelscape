@@ -12,6 +12,7 @@ import net.minecraft.server.level.ServerPlayer;
 
 public class PlayerJoinHandler {
     public static void register() {
+        // Handle player join
         ServerPlayConnectionEvents.JOIN.register((handler, sender, server) -> {
             ServerPlayer player = handler.getPlayer();
             
@@ -74,6 +75,13 @@ public class PlayerJoinHandler {
             player.sendSystemMessage(Component.literal(""));
             player.sendSystemMessage(Component.literal("§6═══════════════════════════════════════"));
             player.sendSystemMessage(Component.literal(""));
+        });
+        
+        // Handle player disconnect - save data and clean up memory
+        ServerPlayConnectionEvents.DISCONNECT.register((handler, server) -> {
+            ServerPlayer player = handler.getPlayer();
+            QuestDataManager.savePlayerData(player);
+            QuestDataManager.removePlayerData(player.getUUID());
         });
     }
     

@@ -123,7 +123,6 @@ public class QuestTracker {
         // Track for "Monster Hunter" quest (Quest 60)
         if (mobType != null) {
             kills.merge("hostile", 1, Integer::sum);
-            int totalKills = kills.get("hostile");
             
             // Update Quest 60 progress
             trackQuestProgress(player, 60, 50, "Hostile Mob", 1);

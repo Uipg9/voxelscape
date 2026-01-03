@@ -11,7 +11,6 @@ import java.util.*;
 public class PlayerQuestData {
     private final Set<Integer> completedQuests = new HashSet<>();
     private final Set<Integer> inProgressQuests = new HashSet<>();
-    private final Map<Integer, Map<String, Integer>> questProgress = new HashMap<>();
     private final Set<Integer> unclaimedRewards = new HashSet<>(); // Quests with pending rewards
     private int questPoints = 0; // Quest Points for perk shop
     private final Set<String> unlockedPerks = new HashSet<>(); // Purchased perks
