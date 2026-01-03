@@ -1,11 +1,17 @@
 # VOXEL SCAPE - Quest System Mod
-## Version 2.0 | Minecraft 1.21.11 Fabric
+## Version 1.4.0 | Minecraft 1.21.11 Fabric
 
 ---
 
 ## 📖 OVERVIEW
 
 Voxel Scape is a comprehensive quest system mod for Minecraft that transforms your survival experience into an epic journey with 150 handcrafted quests spanning from your first punch of a tree to defeating the Wither and collecting every item in the game. The mod seamlessly integrates into vanilla Minecraft, providing goals, rewards, and progression without changing core gameplay mechanics.
+
+**Latest Update (v1.4.0):**
+- Added Rare Drop Booster perk for enhanced loot collection
+- Added Void Walker perk for void survival
+- Implemented daily quest system infrastructure with streak tracking
+- Enhanced mob head collection with stackable drop bonuses
 
 **Core Philosophy:**
 - Natural integration with vanilla Minecraft progression
@@ -29,8 +35,29 @@ Voxel Scape is a comprehensive quest system mod for Minecraft that transforms yo
 - **Item Rewards** - Over 150+ supported items from vanilla Minecraft
 - **Experience Points** - Base XP plus chapter-based bonus XP (50 per chapter level)
 - **XP Format Support** - Quests can directly reward XP using "xp:amount" format
+- **Quest Points (QP)** - Currency earned from quests (1-6 QP per quest, 450 total)
 - **Auto-Reward Claiming** - Click quests in GUI to claim instantly
 - **Inventory Management** - Rewards drop at feet if inventory full
+
+### Perk Shop System
+- **14 Working Perks** across 6 categories purchasable with Quest Points
+- **Permanent Upgrades** - Perks persist forever once purchased
+- **Movement Perks** - Speed boosts and item magnetism
+- **Utility Perks** - Quality of life improvements (night vision, auto replant)
+- **Combat Perks** - Strength, resistance, and fire immunity
+- **Mining Perks** - Fortune, efficiency, and auto-smelting
+- **Special Perks** - Rare drop boosts and mob head collection
+- **Survival Perks** - Void survival and death protection
+- **Cost Range** - 5-50 QP per perk based on power
+
+### Collection Log System
+- **31 Rare Collectibles** tracked automatically
+- **Music Discs** - All 16 vanilla music discs
+- **Rare Mob Drops** - Tridents, totems, saddles, and more
+- **Mob Heads** - Player and mob heads (works with Head Hunter perk)
+- **Auto-detection** - Items logged when acquired
+- **Discovery Notifications** - Special messages for new finds
+- **Completion Tracking** - See your progress at a glance
 
 ### User Experience
 - **Beautiful Welcome Screen** - Greets players with progress summary
@@ -185,6 +212,179 @@ Voxel Scape is a comprehensive quest system mod for Minecraft that transforms yo
 - Quest 150: Ultimate Champion - Complete all ultimate challenges
 
 **Progression:** True endgame content for completionists and collectors.
+
+---
+
+## 🛍️ PERK SHOP SYSTEM
+
+### Overview
+The Perk Shop allows players to spend Quest Points (QP) on permanent upgrades that enhance gameplay. All perks are persistent and remain active forever once purchased. Access the shop with `/perks`.
+
+**Quest Points:**
+- Earned by completing quests (1-6 QP per quest)
+- Total available: 450 QP from all 150 quests
+- Spent on perks ranging from 5 to 50 QP each
+
+### Movement Perks
+
+**Magnetism I** (5 QP)
+- Items within 4 blocks are pulled toward you
+- Basic range, great for early game
+- Works on all dropped items
+- Icon: Netherite Ingot
+
+**Magnetism II** (15 QP)
+- Extended 8-block radius for item attraction
+- Requires Magnetism I first
+- Double the range of Magnetism I
+- Icon: Netherite Ingot
+
+**Speed Boost** (20 QP)
+- Permanent Speed I effect (10% movement speed)
+- Always active when perk is owned
+- Stacks with speed potions
+- Icon: Sugar
+
+### Utility Perks
+
+**Night Vision** (10 QP)
+- Permanent Night Vision effect
+- Never need torches for visibility again
+- Always active when perk is owned
+- Perfect for mining and exploration
+- Icon: Golden Carrot
+
+**Auto Replant** (15 QP)
+- Automatically replants crops when harvesting
+- Works with wheat, carrots, potatoes, beetroot
+- Saves time on large farms
+- Requires seeds/crops in inventory
+- Icon: Wheat Seeds
+
+**Aqua Affinity** (10 QP)
+- Mine at normal speed underwater
+- Equivalent to Aqua Affinity enchantment
+- Applies globally, not just on helmet
+- Icon: Heart of the Sea
+
+### Combat Perks
+
+**Strength** (25 QP)
+- Permanent Strength I effect (+3 attack damage)
+- Always active when perk is owned
+- Makes combat significantly easier
+- Stacks with strength potions
+- Icon: Blaze Powder
+
+**Resistance** (25 QP)
+- Permanent Resistance I effect (-20% incoming damage)
+- Always active when perk is owned
+- Great for dangerous situations
+- Stacks with resistance potions
+- Icon: Iron Chestplate
+
+**Fire Resistance** (30 QP)
+- Permanent Fire Resistance effect
+- Complete immunity to fire and lava damage
+- Perfect for Nether exploration
+- Makes lava lakes safe to swim in
+- Icon: Magma Cream
+
+### Mining Perks
+
+**Lucky Miner** (20 QP)
+- 10% chance to double ore drops
+- Works on coal, iron, gold, diamond, emerald, etc.
+- Does NOT work on blocks that drop themselves (stone, dirt)
+- Chance-based, not guaranteed
+- Icon: Diamond Ore
+
+**Efficiency** (30 QP)
+- Mine blocks 30% faster
+- Applies to all tools (pickaxe, axe, shovel)
+- Stacks with Efficiency enchantments
+- Massive time saver for resource gathering
+- Icon: Diamond Pickaxe
+
+**Fortune** (40 QP)
+- Applies Fortune III effect to all mining
+- Increases drops from ores significantly
+- Works like Fortune III enchantment
+- One of the most valuable perks
+- Icon: Diamond
+- Note: Works on crops, ores, and other fortuneable blocks
+
+**Auto-Smelt** (50 QP)
+- Automatically smelts ores when mined
+- Iron Ore → Iron Ingot instantly
+- Gold Ore → Gold Ingot instantly
+- Saves fuel and smelting time
+- Most expensive perk (highest QP cost)
+- Icon: Furnace
+
+### Special Perks
+
+**Head Hunter** (25 QP)
+- 5% chance to drop mob heads on kill
+- Works on zombies, skeletons, creepers, and more
+- Heads are rare vanilla collectibles
+- Great for decoration and collections
+- Stacks multiplicatively with Rare Drop Booster
+- Icon: Skeleton Skull
+
+**Rare Drop Booster** (40 QP) ⭐ NEW in v1.4.0
+- Increases base rare drop chance by +20%
+- Boosts mob head drops: 5% → 25% (when combined with Head Hunter)
+- Affects all rare loot drops (saddles, discs, etc.)
+- Stacks multiplicatively with other drop perks
+- One of the most powerful late-game perks
+- Icon: Nether Star
+
+### Survival Perks
+
+**Void Walker** (35 QP) ⭐ NEW in v1.4.0
+- Saves you from the void once per day
+- Teleports to Y=320 when you fall below Y=-60
+- 24-hour cooldown between uses
+- Perfect for End dimension exploration
+- Shows cooldown remaining time in chat
+- Prevents fall damage on teleport
+- Icon: Ender Pearl
+
+### Perk Combinations
+
+**Best Early Game Combo (30 QP):**
+- Magnetism I (5 QP)
+- Night Vision (10 QP)
+- Auto Replant (15 QP)
+
+**Best Mining Setup (130 QP):**
+- Efficiency (30 QP)
+- Fortune (40 QP)
+- Auto-Smelt (50 QP)
+- Night Vision (10 QP)
+
+**Combat Master (80 QP):**
+- Strength (25 QP)
+- Resistance (25 QP)
+- Fire Resistance (30 QP)
+
+**Collector's Dream (90 QP):**
+- Head Hunter (25 QP)
+- Rare Drop Booster (40 QP)
+- Magnetism II (15 QP) [requires Magnetism I]
+- Magnetism I (5 QP)
+
+**Full Completion (285 QP):**
+All 14 perks unlocked - requires 285 of 450 available QP
+
+### Tips for Buying Perks
+1. **Prioritize Quality of Life** - Night Vision and Magnetism I are cheap and very useful
+2. **Save for Mining** - Fortune and Auto-Smelt are expensive but worth it
+3. **Combat Second** - Combat perks help with quest progression
+4. **Collectors Last** - Head Hunter and Rare Drop Booster are for late game
+5. **Void Walker for End** - Essential before exploring End cities
+6. **Plan Your Build** - You have 450 QP total, so plan carefully
 
 ---
 
@@ -697,7 +897,39 @@ The quest system is fully data-driven via JSON, allowing server admins to:
 
 ## 📈 VERSION HISTORY
 
-### Version 2.0 (Current)
+### Version 1.4.0 (Current - January 3, 2026)
+- ✨ **NEW PERK:** Rare Drop Booster (40 QP)
+  - Increases base rare drop chance by +20%
+  - Mob heads: 5% → 25% with booster
+  - Stacks multiplicatively with Head Hunter perk
+  - Affects all rare loot drops
+- ✨ **NEW PERK:** Void Walker (35 QP)
+  - Saves player from void once per day
+  - Teleports to Y=320 when below Y=-60
+  - 24-hour cooldown tracking system
+  - Shows remaining cooldown time
+- ✨ **Daily Quest System Infrastructure**
+  - Data structures for rotating daily quests
+  - Quest streak tracking (consecutive days)
+  - Expiry timestamp management
+  - Persistent NBT save/load for all daily quest data
+- 🐛 Fixed unused variable compilation warnings
+- 🐛 Cleaned up code organization
+- 📦 Total working perks: 12 → 14
+
+### Version 1.3.0
+- ✨ Added Auto-Smelt perk (50 QP)
+- ✨ Added Fire Resistance perk (30 QP)
+- ✨ Enhanced perk effects handler
+- 🐛 Fixed perk persistence issues
+
+### Version 1.2.0
+- ✨ Added 12 working perks
+- ✨ Implemented perk shop GUI
+- ✨ Added collection log system (31 collectibles)
+- 🐛 Fixed quest completion tracking
+
+### Version 1.1.0
 - ✨ Expanded to 150 quests across 6 chapters
 - ✨ Added combat tracking system
 - ✨ Implemented XP reward system with bonus XP
@@ -710,7 +942,7 @@ The quest system is fully data-driven via JSON, allowing server admins to:
 - 🐛 Fixed corrupted reward data detection
 - 🐛 Fixed entity type detection for mob kills
 
-### Version 1.0 (Initial Release)
+### Version 1.0.0 (Initial Release)
 - 🎉 Initial release with 60 quests
 - 🎉 Chapter 1-3 implemented
 - 🎉 Basic GUI with SGui library
@@ -752,5 +984,5 @@ Voxel Scape is designed to enhance your Minecraft experience by providing clear 
 
 ---
 
-*This documentation is current as of Voxel Scape v2.0*
-*Last Updated: January 2, 2026*
+*This documentation is current as of Voxel Scape v1.4.0*
+*Last Updated: January 3, 2026*

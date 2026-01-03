@@ -1,6 +1,7 @@
 # 🎮 Voxel Scape
 
 **An immersive quest adventure mod for Minecraft 1.21.11 (Fabric)**
+**Current Version: v1.4.0**
 
 Inspired by Old School RuneScape, Voxel Scape brings a comprehensive quest system to Minecraft with 150 progressive quests, a currency system, upgradeable perks, and collectible tracking.
 
@@ -12,14 +13,16 @@ Inspired by Old School RuneScape, Voxel Scape brings a comprehensive quest syste
 - **Hero's Journal** - A mystical quest book given to all new players
 - **Auto-tracking** - All quests activate automatically
 - **Smart Dependencies** - Quests unlock as you progress
+- **Daily Quest System** - Infrastructure ready for rotating daily challenges
 
 ### 🛍️ Perk Shop
-- **14 Unique Perks** across 5 categories
-  - **Movement**: Speed Boost, Magnetism I/II
+- **14 Working Perks** across 6 categories
+  - **Movement**: Magnetism I/II, Speed Boost
   - **Utility**: Night Vision, Auto Replant, Aqua Affinity
-  - **Combat**: Strength, Resistance
-  - **Mining**: Lucky Miner, Efficiency, Fortune
-  - **Special**: XP Multiplier, Soul Keeper, Head Hunter
+  - **Combat**: Strength, Resistance, Fire Resistance
+  - **Mining**: Lucky Miner, Efficiency, Fortune, Auto-Smelt
+  - **Special**: Head Hunter, Rare Drop Booster
+  - **Survival**: Void Walker
 - **Spend Quest Points** to unlock permanent upgrades
 - **Prerequisite System** - Some perks require others first
 
@@ -44,8 +47,25 @@ Inspired by Old School RuneScape, Voxel Scape brings a comprehensive quest syste
 - `/quest start <id>` - Start a quest
 - `/quest complete <id>` - Complete a quest (if requirements met)
 - `/quest claim` - Claim all pending rewards
-- `/perks` - Open the Perk Shop
-- `/collection` - Open the Collection Log
+- `/perks` - Open the Perk Shop (14 unique perks)
+- `/collection` - Open the Collection Log (31 collectibles)
+
+## 🎁 Latest in v1.4.0
+
+### New Perks
+- **Rare Drop Booster** (40 QP) - Increases rare drop chances by +20%
+  - Boosts mob head drops from 5% to 25%
+  - Stacks with Head Hunter perk for even better rates
+  - Affects all rare loot drops
+- **Void Walker** (35 QP) - Survive the void once per day
+  - Teleports you to surface (Y=320) when falling below Y=-60
+  - 24-hour cooldown system
+  - Perfect for End dimension exploration
+
+### Daily Quest System
+- Complete infrastructure for rotating daily challenges
+- Quest streak tracking for consecutive completions
+- Persistent data storage ready for future updates
 
 ## 🔧 Installation
 
@@ -66,8 +86,9 @@ Inspired by Old School RuneScape, Voxel Scape brings a comprehensive quest syste
 
 ## 🐛 Known Issues
 
-- Some combat perks (Speed, Strength, Haste) temporarily disabled due to Mojang mapping compatibility
-- XP Multiplier and Soul Keeper perks need implementation
+- XP Multiplier and Soul Keeper perks need full implementation
+- Daily quest command interface not yet added (data structures ready)
+- Speed Boost perk needs effect reapplication system
 
 ## 🛠️ Development
 
