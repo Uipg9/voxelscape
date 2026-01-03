@@ -125,6 +125,39 @@ public class PerkEffectHandler {
             player.addEffect(new MobEffectInstance(MobEffects.WATER_BREATHING, 40, 0, true, false));
             player.addEffect(new MobEffectInstance(MobEffects.NIGHT_VISION, 40, 0, true, false));
         }
+        
+        // Magnetism - Increase XP pickup range
+        if (data.hasPerk("magnetism_2")) {
+            attractXPOrbs(player, 6.0); // +4 block range
+        } else if (data.hasPerk("magnetism_1")) {
+            attractXPOrbs(player, 4.0); // +2 block range
+        }
+    }
+    
+    private static void attractXPOrbs(ServerPlayer player, double range) {
+        var level = player.level();
+        var nearbyOrbs = level.getEntitiesOfClass(
+            ExperienceOrb.class,
+            player.getBoundingBox().inflate(range),
+            orb -> orb.isAlive()
+        );
+        
+        for (ExperienceOrb orb : nearbyOrbs) {
+            // Pull orbs toward player
+            double dx = player.getX() - orb.getX();
+            double dy = player.getY() + player.getEyeHeight() / 2.0 - orb.getY();
+            double dz = player.getZ() - orb.getZ();
+            double distance = Math.sqrt(dx * dx + dy * dy + dz * dz);
+            
+            if (distance > 0.1) {
+                double speed = 0.3;
+                orb.setDeltaMovement(
+                    dx / distance * speed,
+                    dy / distance * speed,
+                    dz / distance * speed
+                );
+            }
+        }
     }
     
     private static void applyXPBoost(ServerPlayer player) {

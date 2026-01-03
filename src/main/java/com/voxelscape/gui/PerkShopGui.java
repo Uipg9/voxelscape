@@ -24,14 +24,7 @@ public class PerkShopGui extends SimpleGui {
     private void setupPerks(ServerPlayer player) {
         PlayerQuestData data = QuestDataManager.getPlayerData(player);
         
-        // Movement Perks
-        addPerk(player, 10, "step_assist", "§bStep Assist", 8, Items.IRON_BOOTS,
-            "§7Automatically step up 1 block",
-            "§7No more jumping constantly!");
-        
-        addPerk(player, 11, "speed_boost", "§bSpeed Boost I", 15, Items.SUGAR,
-            "§7Permanent Speed I effect",
-            "§7Move 20% faster!");
+        // Movement Perks - Speed Boost disabled (MobEffects not available)
         
         // Utility Perks
         addPerk(player, 12, "night_vision", "§eNight Vision", 12, Items.GOLDEN_CARROT,
