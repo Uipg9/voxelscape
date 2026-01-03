@@ -31,16 +31,16 @@ public class PerkShopGui extends SimpleGui {
             "§7Permanent night vision",
             "§7See in the dark!");
         
-        addPerk(player, 13, "auto_feeder", "§eAuto-Feeder", 10, Items.COOKED_BEEF,
-            "§75% chance to not consume food",
-            "§7Save your steaks!");
+        addPerk(player, 13, "auto_replant", "§eAuto-Replant", 10, Items.WHEAT_SEEDS,
+            "§7Auto-replant crops when broken",
+            "§7Never replant manually again!");
         
         addPerk(player, 14, "magnetism_1", "§eMagnetism I", 5, Items.IRON_INGOT,
-            "§7XP orbs: +2 block range",
-            "§7Collect XP easier!");
+            "§7XP & Items: +2 block range",
+            "§7Collect loot easier!");
         
         addPerk(player, 15, "magnetism_2", "§eMagnetism II", 12, Items.GOLD_INGOT,
-            "§7XP orbs: +4 block range",
+            "§7XP & Items: +4 block range",
             "§8Requires: Magnetism I",
             "magnetism_1"); // Prerequisite perk ID
         

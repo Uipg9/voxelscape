@@ -45,6 +45,7 @@ public class PerkEffectHandler {
         PlayerBlockBreakEvents.AFTER.register((level, player, pos, state, blockEntity) -> {
             if (player instanceof ServerPlayer serverPlayer) {
                 handleMiningPerks(serverPlayer, state);
+                handleAutoReplant(serverPlayer, level, pos, state);
             }
         });
         
@@ -126,11 +127,13 @@ public class PerkEffectHandler {
             player.addEffect(new MobEffectInstance(MobEffects.NIGHT_VISION, 40, 0, true, false));
         }
         
-        // Magnetism - Increase XP pickup range
+        // Magnetism - Increase XP and item pickup range
         if (data.hasPerk("magnetism_2")) {
             attractXPOrbs(player, 6.0); // +4 block range
+            attractItems(player, 6.0);
         } else if (data.hasPerk("magnetism_1")) {
             attractXPOrbs(player, 4.0); // +2 block range
+            attractItems(player, 4.0);
         }
     }
     
@@ -273,4 +276,87 @@ public class PerkEffectHandler {
         // Default to player head for other mobs
         return new ItemStack(Items.PLAYER_HEAD);
     }
-}
+    
+    private static void attractItems(ServerPlayer player, double range) {
+        var level = player.level();
+        var nearbyItems = level.getEntitiesOfClass(
+            ItemEntity.class,
+            player.getBoundingBox().inflate(range),
+            item -> item.isAlive() && !item.hasPickUpDelay()
+        );
+        
+        for (ItemEntity item : nearbyItems) {
+            // Pull items toward player
+            double dx = player.getX() - item.getX();
+            double dy = player.getY() + player.getEyeHeight() / 2.0 - item.getY();
+            double dz = player.getZ() - item.getZ();
+            double distance = Math.sqrt(dx * dx + dy * dy + dz * dz);
+            
+            if (distance > 0.1) {
+                double speed = 0.4;
+                item.setDeltaMovement(
+                    dx / distance * speed,
+                    dy / distance * speed,
+                    dz / distance * speed
+                );
+            }
+        }
+    }
+    
+    private static void handleAutoReplant(ServerPlayer player, net.minecraft.world.level.Level level, 
+                                          net.minecraft.core.BlockPos pos, BlockState state) {
+        PlayerQuestData data = QuestDataManager.getPlayerData(player);
+        
+        if (!data.hasPerk("auto_replant")) return;
+        
+        // Check if player has seeds/crops in inventory and replant
+        if (state.is(Blocks.WHEAT)) {
+            if (hasSeedInInventory(player, Items.WHEAT_SEEDS)) {
+                level.setBlock(pos, Blocks.WHEAT.defaultBlockState(), 3);
+                consumeSeed(player, Items.WHEAT_SEEDS);
+            }
+        } else if (state.is(Blocks.CARROTS)) {
+            if (hasSeedInInventory(player, Items.CARROT)) {
+                level.setBlock(pos, Blocks.CARROTS.defaultBlockState(), 3);
+                consumeSeed(player, Items.CARROT);
+            }
+        } else if (state.is(Blocks.POTATOES)) {
+            if (hasSeedInInventory(player, Items.POTATO)) {
+                level.setBlock(pos, Blocks.POTATOES.defaultBlockState(), 3);
+                consumeSeed(player, Items.POTATO);
+            }
+        } else if (state.is(Blocks.BEETROOTS)) {
+            if (hasSeedInInventory(player, Items.BEETROOT_SEEDS)) {
+                level.setBlock(pos, Blocks.BEETROOTS.defaultBlockState(), 3);
+                consumeSeed(player, Items.BEETROOT_SEEDS);
+            }
+        } else if (state.is(Blocks.NETHER_WART)) {
+            if (hasSeedInInventory(player, Items.NETHER_WART)) {
+                level.setBlock(pos, Blocks.NETHER_WART.defaultBlockState(), 3);
+                consumeSeed(player, Items.NETHER_WART);
+            }
+        }
+    }
+    
+    private static boolean hasSeedInInventory(ServerPlayer player, net.minecraft.world.item.Item seed) {
+        for (int i = 0; i < player.getInventory().getContainerSize(); i++) {
+            ItemStack stack = player.getInventory().getItem(i);
+            if (stack.is(seed)) {
+                return true;
+            }
+        }
+        return false;
+    }
+    
+    private static void consumeSeed(ServerPlayer player, net.minecraft.world.item.Item seed) {
+        for (int i = 0; i < player.getInventory().getContainerSize(); i++) {
+            ItemStack stack = player.getInventory().getItem(i);
+            if (stack.is(seed)) {
+                stack.shrink(1);
+                if (stack.isEmpty()) {
+                    player.getInventory().setItem(i, ItemStack.EMPTY);
+                }
+                return;
+            }
+        }
+    }}

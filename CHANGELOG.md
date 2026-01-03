@@ -2,6 +2,20 @@
 
 All notable changes to Voxel Scape will be documented in this file.
 
+## [1.2.0] - 2026-01-03
+
+### Added
+- **Auto-Replant Perk** (10 QP) - Automatically replants crops when harvested
+  - Supports wheat, carrots, potatoes, beetroot, and nether wart
+  - Uses seeds/crops from your inventory
+- **Item Magnetism** - Magnetism I & II perks now attract dropped items (not just XP)
+  - Both tiers pull items toward you automatically
+  - Makes looting and farming much more convenient
+
+### Changed
+- Magnetism perks now affect both XP orbs and dropped items
+- Auto-Replant replaces the previously planned Auto-Feeder perk
+
 ## [1.1.0] - 2026-01-03
 
 ### Added
