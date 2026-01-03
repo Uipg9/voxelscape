@@ -2,6 +2,23 @@
 
 All notable changes to Voxel Scape will be documented in this file.
 
+## [1.3.0] - 2026-01-03
+
+### Added
+- **Auto-Smelt Perk** (28 QP) - Instantly smelt ores when mined
+  - Works with iron, gold, copper ore (including deepslate variants)
+  - Also smelts cobblestone→stone, sand→glass, clay→terracotta
+  - Get ingots directly without smelting!
+- **Fire Resistance Perk** (22 QP) - Permanent fire immunity
+  - Swim in lava safely
+  - Never burn from fire or lava again
+- **Feather Falling Perk** (18 QP) - Reduce fall damage (planned)
+  - Note: Currently disabled pending API updates
+
+### Fixed
+- Cleaned up unused imports for better code quality
+- Fixed compilation warnings
+
 ## [1.2.0] - 2026-01-03
 
 ### Added

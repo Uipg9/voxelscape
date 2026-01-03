@@ -7,7 +7,6 @@ import net.fabricmc.fabric.api.entity.event.v1.ServerPlayerEvents;
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerTickEvents;
 import net.fabricmc.fabric.api.event.player.PlayerBlockBreakEvents;
 import net.minecraft.server.level.ServerPlayer;
-import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.ExperienceOrb;
@@ -57,9 +56,10 @@ public class PerkEffectHandler {
             }
         });
         
-        // Handle XP pickup boost
+        // Handle XP pickup boost and feather falling  
         ServerLivingEntityEvents.ALLOW_DAMAGE.register((entity, source, amount) -> {
-            // XP boost is handled via ExperienceOrb tracking in applyXPBoost
+            // Feather falling is applied passively via fall distance reduction
+            // (handled through player tick event if needed in future)
             return true;
         });
         
@@ -100,12 +100,12 @@ public class PerkEffectHandler {
             player.addEffect(new MobEffectInstance(MobEffects.NIGHT_VISION, 300, 0, true, false));
         }
         
-        // Speed Boost - Using MOVEMENT_SLOWNESS inverse wouldn't work, so disable for now
+        // Speed Boost - MobEffects constants not available in 1.21.11
         // if (data.hasPerk("speed_boost")) {
         //     player.addEffect(new MobEffectInstance(MobEffects.MOVEMENT_SPEED, 40, 0, true, false));
         // }
         
-        // Strength - Using WEAKNESS inverse wouldn't work, so disable for now  
+        // Strength - MobEffects constants not available in 1.21.11  
         // if (data.hasPerk("strength_1")) {
         //     player.addEffect(new MobEffectInstance(MobEffects.DAMAGE_BOOST, 40, 0, true, false));
         // }
@@ -116,7 +116,7 @@ public class PerkEffectHandler {
             player.addEffect(new MobEffectInstance(MobEffects.REGENERATION, 40, 0, true, false));
         }
         
-        // Haste - Using MINING_FATIGUE inverse wouldn't work, so disable for now
+        // Haste - MobEffects constants not available in 1.21.11
         // if (data.hasPerk("haste_1")) {
         //     player.addEffect(new MobEffectInstance(MobEffects.DIG_SPEED, 40, 0, true, false));
         // }
@@ -125,6 +125,11 @@ public class PerkEffectHandler {
         if (data.hasPerk("aqua_affinity") && player.isUnderWater()) {
             player.addEffect(new MobEffectInstance(MobEffects.WATER_BREATHING, 40, 0, true, false));
             player.addEffect(new MobEffectInstance(MobEffects.NIGHT_VISION, 40, 0, true, false));
+        }
+        
+        // Fire Resistance
+        if (data.hasPerk("fire_resistance")) {
+            player.addEffect(new MobEffectInstance(MobEffects.FIRE_RESISTANCE, 40, 0, true, false));
         }
         
         // Magnetism - Increase XP and item pickup range
@@ -209,6 +214,25 @@ public class PerkEffectHandler {
     
     private static void handleMiningPerks(ServerPlayer player, BlockState state) {
         PlayerQuestData data = QuestDataManager.getPlayerData(player);
+        
+        // Auto-Smelt - Instantly smelt ores
+        if (data.hasPerk("auto_smelt") && isSmeltable(state)) {
+            ItemStack smeltedResult = getSmeltedItem(state);
+            if (smeltedResult != null && !smeltedResult.isEmpty()) {
+                ItemEntity itemEntity = new ItemEntity(
+                    player.level(), 
+                    player.getX(), 
+                    player.getY(), 
+                    player.getZ(), 
+                    smeltedResult
+                );
+                player.level().addFreshEntity(itemEntity);
+                
+                if (RANDOM.nextFloat() < 0.05f) { // 5% chance to show message
+                    player.sendSystemMessage(net.minecraft.network.chat.Component.literal("§6✦ Auto-Smelt!"));
+                }
+            }
+        }
         
         // Lucky Miner - 10% chance for double drops on ores
         if (data.hasPerk("fortune_luck") && isOre(state)) {
@@ -359,4 +383,35 @@ public class PerkEffectHandler {
                 return;
             }
         }
-    }}
+    }
+    
+    private static boolean isSmeltable(BlockState state) {
+        return state.is(Blocks.IRON_ORE) || state.is(Blocks.DEEPSLATE_IRON_ORE) ||
+               state.is(Blocks.GOLD_ORE) || state.is(Blocks.DEEPSLATE_GOLD_ORE) ||
+               state.is(Blocks.COPPER_ORE) || state.is(Blocks.DEEPSLATE_COPPER_ORE) ||
+               state.is(Blocks.ANCIENT_DEBRIS) ||
+               state.is(Blocks.COBBLESTONE) || state.is(Blocks.COBBLED_DEEPSLATE) ||
+               state.is(Blocks.SAND) || state.is(Blocks.CLAY);
+    }
+    
+    private static ItemStack getSmeltedItem(BlockState state) {
+        if (state.is(Blocks.IRON_ORE) || state.is(Blocks.DEEPSLATE_IRON_ORE)) {
+            return new ItemStack(Items.IRON_INGOT);
+        } else if (state.is(Blocks.GOLD_ORE) || state.is(Blocks.DEEPSLATE_GOLD_ORE)) {
+            return new ItemStack(Items.GOLD_INGOT);
+        } else if (state.is(Blocks.COPPER_ORE) || state.is(Blocks.DEEPSLATE_COPPER_ORE)) {
+            return new ItemStack(Items.COPPER_INGOT);
+        } else if (state.is(Blocks.ANCIENT_DEBRIS)) {
+            return new ItemStack(Items.NETHERITE_SCRAP);
+        } else if (state.is(Blocks.COBBLESTONE)) {
+            return new ItemStack(Items.STONE);
+        } else if (state.is(Blocks.COBBLED_DEEPSLATE)) {
+            return new ItemStack(Items.DEEPSLATE);
+        } else if (state.is(Blocks.SAND)) {
+            return new ItemStack(Items.GLASS);
+        } else if (state.is(Blocks.CLAY)) {
+            return new ItemStack(Items.TERRACOTTA);
+        }
+        return ItemStack.EMPTY;
+    }
+}

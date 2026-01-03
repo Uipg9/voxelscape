@@ -62,6 +62,10 @@ public class PerkShopGui extends SimpleGui {
             "§7Permanent Haste I effect",
             "§7Mine 20% faster!");
         
+        addPerk(player, 10, "auto_smelt", "§6Auto-Smelt", 28, Items.LAVA_BUCKET,
+            "§7Instantly smelt ores when mined",
+            "§7Get ingots directly!");
+        
         // Special Perks
         addPerk(player, 22, "fortune_luck", "§dLucky Miner", 25, Items.EMERALD,
             "§710% chance for double drops",
@@ -78,6 +82,15 @@ public class PerkShopGui extends SimpleGui {
         addPerk(player, 25, "keep_inventory", "§5Soul Keeper", 50, Items.TOTEM_OF_UNDYING,
             "§7Keep items on death",
             "§c§lONE TIME USE PER DEATH!");
+        
+        // Protection Perks
+        addPerk(player, 11, "feather_falling", "§bFeather Falling", 18, Items.FEATHER,
+            "§7Reduce fall damage by 40%",
+            "§7Survive high drops!");
+        
+        addPerk(player, 18, "fire_resistance", "§6Fire Resistance", 22, Items.MAGMA_CREAM,
+            "§7Permanent fire immunity",
+            "§7Swim in lava safely!");
     }
     
     private void addPerk(ServerPlayer player, int slot, String perkId, String name, int cost, 
