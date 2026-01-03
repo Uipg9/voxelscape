@@ -1,4 +1,81 @@
-# Voxel Scape v1.0.0 - Initial Release
+# Voxel Scape v1.4.0 - Daily Quests & Void Survival
+
+**Latest Update for Minecraft 1.21.11 (Fabric)**
+
+## 🎉 What's New in v1.4.0
+
+### New Perks
+
+**Rare Drop Booster** (40 QP) 🌟
+- Increases base rare drop chance by +20%
+- Boosts mob head drops from 5% to 25% (when combined with Head Hunter)
+- Affects all rare loot drops including saddles, music discs, and more
+- Stacks multiplicatively with Head Hunter perk
+- One of the most powerful end-game perks for collectors
+
+**Void Walker** (35 QP) 🌌
+- Saves you from the void once per day
+- Automatically teleports to Y=320 when falling below Y=-60
+- 24-hour cooldown system with time tracking
+- Perfect for End dimension exploration and city raids
+- Shows remaining cooldown time in chat
+- Prevents fall damage on teleport
+
+### Daily Quest System Infrastructure
+
+- Complete data structures for rotating daily challenges
+- Quest streak tracking (consecutive days completed)
+- Timestamp-based expiry system
+- Persistent NBT save/load for all daily quest data
+- Ready for future daily quest command implementation
+
+### Bug Fixes & Improvements
+
+- Fixed unused variable compilation warnings
+- Cleaned up code organization
+- Improved perk effect handler
+- Enhanced drop rate calculations
+
+## 📊 Current Stats
+
+- **Total Quests:** 150 across 6 chapters
+- **Total Quest Points Available:** 450 QP
+- **Working Perks:** 14 permanent upgrades
+- **Total Perk Cost:** 285 QP (for all perks)
+- **Collectibles Tracked:** 31 rare items
+
+---
+
+# Previous Releases
+
+## v1.3.0 - Fire & Forge Update
+
+### New Perks
+- **Auto-Smelt** (50 QP) - Automatically smelt ores when mined
+- **Fire Resistance** (30 QP) - Permanent fire and lava immunity
+
+---
+
+## v1.2.0 - Perk Shop & Collections
+
+### Features Added
+- Perk Shop system with 12 working perks
+- Collection Log tracking 31 collectibles
+- Enhanced GUI with sound effects
+
+---
+
+## v1.1.0 - Quest Expansion
+
+### Major Update
+- Expanded from 60 to 150 quests
+- Added Chapters 4, 5, and 6
+- Combat tracking system
+- XP reward system with bonus multipliers
+
+---
+
+## v1.0.0 - Initial Release
 
 **An immersive quest adventure mod for Minecraft 1.21.11 (Fabric)**
 

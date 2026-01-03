@@ -1,53 +1,106 @@
-# Voxel Scape - Fixes Needed for Build
+# Voxel Scape - Build & Development Notes
 
-## Problem
-The build is failing because Minecraft 1.21.11 class names in Yarn mappings don't match what we used.
+## Current Status (v1.4.0) ✅
 
-## Solution
-We need to use Mojang mappings instead of Yarn. Here's what to change:
+**Build Status:** SUCCESSFUL
+**Last Build:** January 3, 2026
+**Minecraft Version:** 1.21.11 Fabric
+**Mappings:** Mojang Official (working perfectly)
 
-### 1. Update gradle.properties
-Current version (DO NOT CHANGE):
-```
-yarn_mappings=1.21.11+build.1
-```
+All compilation errors and warnings have been resolved!
 
-**Note: We are using Minecraft 1.21.11, NOT 1.21.1 - these are very different versions!**
+---
 
-If you needed to revert to 1.21.1:
-```
-yarn_mappings=1.21.1+build.3
-```
+## Recent Fixes Applied
 
-OR use Mojang mappings by changing build.gradle line 13 from:
-```gradle
-mappings "net.fabricmc:yarn:${project.yarn_mappings}:v2"
-```
-To:
-```gradle
-mappings loom.officialMojangMappings()
-```
+### v1.4.0 Fixes
+- ✅ Removed unused `PERK_SLOTS` array from PerkShopGui.java
+- ✅ Removed unused `data` variable in setupPerks method
+- ✅ All compilation warnings cleared
+- ✅ Code organization improved
 
-### 2. After fixing mappings, the imports should work:
-- `net.minecraft.nbt.CompoundTag`
-- `net.minecraft.nbt.IntArrayTag`  
-- `net.minecraft.commands.CommandSourceStack`
-- `net.minecraft.commands.Commands`
-- `net.minecraft.network.chat.Component`
-- `net.minecraft.server.level.ServerPlayer`
+### Previous Fixes
+- ✅ Switched to Mojang mappings (from Yarn)
+- ✅ All imports working correctly
+- ✅ NBT system functioning
+- ✅ Command system operational
 
-These are all standard Mojang-mapped names.
+---
 
-### 3. Build command:
+## Known Limitations
+
+### Not Yet Implemented
+1. **XP Multiplier Perk** - Infrastructure exists, needs activation logic
+2. **Soul Keeper Perk** - Infrastructure exists, needs death event handler
+3. **Daily Quest Commands** - Data structures ready, needs `/dailyquest` command
+4. **Speed Boost Reapplication** - Effect disappears on death, needs re-application system
+
+### Technical Notes
+- Some features require additional event handlers
+- All data structures and persistence working correctly
+- Perks save/load properly via NBT
+
+---
+
+## Build Instructions
+
+### Standard Build
 ```powershell
 cd "C:\Users\baesp\Desktop\iujhwerfoiuwhb iouwb\voxelscape"
 .\gradlew.bat build --no-daemon
 ```
 
-### 4. After successful build:
-Copy the JAR from `build\libs\voxelscape-1.0.0.jar` to your mods folder.
+**Expected Output:**
+- BUILD SUCCESSFUL in ~11-13 seconds
+- JAR location: `build\libs\voxelscape-1.4.0.jar`
+- 7 actionable tasks executed
 
-## What the mod does
+### Clean Build (if needed)
+```powershell
+.\gradlew.bat clean build --no-daemon
+```
+
+---
+
+## Gradle Configuration
+
+### Current Setup (Working)
+**File:** `build.gradle` (Line 13)
+```gradle
+mappings loom.officialMojangMappings()
+```
+
+**DO NOT CHANGE** - This configuration works perfectly with Minecraft 1.21.11
+
+### Dependencies
+```gradle
+minecraft "com.mojang:minecraft:1.21.11"
+fabricLoader "net.fabricmc:fabric-loader:0.18.1+1.21.11"
+modImplementation "net.fabricmc.fabric-api:fabric-api:0.140.0+1.21.11"
+```
+
+---
+
+## Development Notes
+
+### Adding New Perks
+1. Add perk to `PerkShopGui.setupPerks()`
+2. Implement effect in `PerkEffectHandler`
+3. Update costs in perk description
+4. Test purchase and persistence
+5. Update documentation
+
+### Adding New Quests
+1. Edit quest data in quest manager
+2. Test requirements and rewards
+3. Verify tracking system
+4. Update chapter documentation
+
+---
+
+## What This Mod Does
+
+### Core Features
 - `/quests` - Lists all 200 quests with color-coded status
 - `/quest <id>` - View quest details
 - `/quest start <id>` - Start a quest
