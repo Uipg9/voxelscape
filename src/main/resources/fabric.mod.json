@@ -8,14 +8,14 @@
     {
       "name": "Uipg",
       "contact": {
-        "sources": "https://github.com/Uipg/voxelscape"
+        "sources": "https://github.com/Uipg9/voxelscape"
       }
     }
   ],
   "contact": {
-    "homepage": "https://github.com/Uipg/voxelscape",
-    "sources": "https://github.com/Uipg/voxelscape",
-    "issues": "https://github.com/Uipg/voxelscape/issues"
+    "homepage": "https://github.com/Uipg9/voxelscape",
+    "sources": "https://github.com/Uipg9/voxelscape",
+    "issues": "https://github.com/Uipg9/voxelscape/issues"
   },
   "custom": {
     "modmenu": {
