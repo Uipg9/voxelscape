@@ -1,0 +1,40 @@
+{
+  "schemaVersion": 1,
+  "id": "voxelscape",
+  "version": "${version}",
+  "name": "Voxel Scape",
+  "description": "An immersive quest adventure mod featuring 150 progressive quests, a Quest Points currency system, an upgradeable Perk Shop, a Collection Log museum for rare items, and the mystical Hero's Journal. Inspired by OSRS, crafted with care.",
+  "authors": [
+    {
+      "name": "Uipg",
+      "contact": {
+        "sources": "https://github.com/Uipg/voxelscape"
+      }
+    }
+  ],
+  "contact": {
+    "homepage": "https://github.com/Uipg/voxelscape",
+    "sources": "https://github.com/Uipg/voxelscape",
+    "issues": "https://github.com/Uipg/voxelscape/issues"
+  },
+  "custom": {
+    "modmenu": {
+      "credits": "Crafted with passion and dedication by Uipg. Every quest, every feature, every line of code was written with care to bring you the best adventure experience in Minecraft."
+    }
+  },
+  "license": "MIT",
+  "icon": "assets/voxelscape/icon.png",
+  "environment": "*",
+  "entrypoints": {
+    "main": [
+      "com.voxelscape.VoxelScape"
+    ]
+  },
+  "mixins": [],
+  "depends": {
+    "fabricloader": ">=0.18.1",
+    "fabric-api": "*",
+    "minecraft": "~1.21.11",
+    "java": ">=21"
+  }
+}
