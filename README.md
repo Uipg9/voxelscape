@@ -1,6 +1,6 @@
 # 🎮 Voxel Scape
 
-**An immersive quest adventure mod for Minecraft 1.21.1 (Fabric)**
+**An immersive quest adventure mod for Minecraft 1.21.11 (Fabric)**
 
 Inspired by Old School RuneScape, Voxel Scape brings a comprehensive quest system to Minecraft with 150 progressive quests, a currency system, upgradeable perks, and collectible tracking.
 
@@ -49,7 +49,7 @@ Inspired by Old School RuneScape, Voxel Scape brings a comprehensive quest syste
 
 ## 🔧 Installation
 
-1. Install [Fabric Loader](https://fabricmc.net/use/) for Minecraft 1.21.1
+1. Install [Fabric Loader](https://fabricmc.net/use/) for Minecraft 1.21.11
 2. Download [Fabric API](https://modrinth.com/mod/fabric-api)
 3. Download the latest Voxel Scape release
 4. Place both `.jar` files in your `mods` folder
@@ -72,7 +72,7 @@ Inspired by Old School RuneScape, Voxel Scape brings a comprehensive quest syste
 ## 🛠️ Development
 
 Built with:
-- Minecraft 1.21.1
+- Minecraft 1.21.11
 - Fabric Loader 0.18.1+
 - Fabric API
 - Simple GUI (sgui) library

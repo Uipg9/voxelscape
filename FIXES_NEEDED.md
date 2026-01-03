@@ -7,11 +7,14 @@ The build is failing because Minecraft 1.21.11 class names in Yarn mappings don'
 We need to use Mojang mappings instead of Yarn. Here's what to change:
 
 ### 1. Update gradle.properties
-Change line 3 from:
+Current version (DO NOT CHANGE):
 ```
 yarn_mappings=1.21.11+build.1
 ```
-To:
+
+**Note: We are using Minecraft 1.21.11, NOT 1.21.1 - these are very different versions!**
+
+If you needed to revert to 1.21.1:
 ```
 yarn_mappings=1.21.1+build.3
 ```
